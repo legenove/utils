@@ -67,3 +67,10 @@ func IsInStringSlice(slice []string, e string) bool {
 	}
 	return false
 }
+
+func GetDefaultString(v, dv string) string {
+	if v == "" {
+		return dv
+	}
+	return v
+}

@@ -1,6 +1,8 @@
 package utils
 
-import "os"
+import (
+	"os"
+)
 
 // FileExists reports whether the named file or directory exists.
 func FileExists(name string) bool {
@@ -28,4 +30,8 @@ func CreateDir(path string) error {
 		return os.MkdirAll(path, os.ModePerm)
 	}
 	return nil
+}
+
+func LoadDataFrom(filePath string) ([]byte, error) {
+	return LoadFromFileOrHTTP(filePath)
 }
