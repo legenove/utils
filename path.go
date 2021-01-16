@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"io"
 	"os"
 )
 
@@ -32,6 +33,31 @@ func CreateDir(path string) error {
 	return nil
 }
 
+func CreateFile(filePath string) (f *os.File, err error) {
+	f, err = os.Create(filePath)
+	return
+}
+
+func RemoveFile(filePath string) error {
+	return os.Remove(filePath)
+}
+
 func LoadDataFrom(filePath string) ([]byte, error) {
 	return LoadFromFileOrHTTP(filePath)
+}
+
+func WriteDataTo(filePath string, data string) error {
+	var f *os.File
+	var err error
+	if FileExists(filePath) {
+		f, err = os.OpenFile(filePath, os.O_WRONLY|os.O_TRUNC|os.O_CREATE, os.ModePerm)
+	} else {
+		f, err = CreateFile(filePath)
+	}
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	_, err = io.WriteString(f, data)
+	return err
 }
